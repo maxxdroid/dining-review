@@ -1,5 +1,6 @@
 package com.example.diningReview.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -13,6 +14,7 @@ public class User {
     @GeneratedValue
     private Long id;
 
+    @Column(unique = true)
     private String name;
 
     private String city;
@@ -21,9 +23,19 @@ public class User {
 
     private String zipcode;
 
-    private boolean peanutAllergies;
+    private boolean isPeanutAllergies;
 
-    private boolean eggAllergies;
+    private boolean isEggAllergies;
 
-    private boolean diaryAllergies;
+    private boolean isDiaryAllergies;
+
+    public boolean tryGetPeanutAllergy() {
+        return isPeanutAllergies;
+    }
+    public boolean tryGetEgAllergy() {
+        return isEggAllergies;
+    }
+    public boolean tryGetDiaryAllergy() {
+        return isDiaryAllergies;
+    }
 }
