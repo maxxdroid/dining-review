@@ -5,9 +5,6 @@ import com.example.diningReview.model.User;
 import com.example.diningReview.repository.UserRepository;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -24,7 +21,7 @@ public class UserController {
         return  this.userRepository.findAll();
     }
 
-    @GetMapping("/users/search")
+    @GetMapping("/search")
     public User searchUserByName(@RequestParam(value = "name", required = false) String name) {
         if(name== null) {
            return null;
@@ -35,14 +32,14 @@ public class UserController {
 
     @PostMapping
     public User createNewUser(@RequestBody User user) {
-        Optional<User> checkUser = this.userRepository.findById(user.getId());
-        if(checkUser.isEmpty()) {
+        Optional<User> checkUser = this.userRepository.findByName(user.getName());
+        if(checkUser.isPresent()) {
             return null;
         }
         return this.userRepository.save(user);
     }
 
-    @PostMapping
+    @PutMapping("/update")
     public  User updateUser(@RequestBody User user) {
         Optional<User> checkUser = this.userRepository.findByName(user.getName());
         if(checkUser.isEmpty()) {
@@ -57,6 +54,15 @@ public class UserController {
         }
         if (checkChange(userToUpdate.getZipcode(), user.getZipcode()) && userToUpdate.getZipcode()!=null) {
             userToUpdate.setZipcode(user.getZipcode());
+        }
+        if(user.isPeanutAllergies() != userToUpdate.isPeanutAllergies()) {
+            userToUpdate.setPeanutAllergies(user.isPeanutAllergies());
+        }
+        if(user.isDiaryAllergies() != userToUpdate.isDiaryAllergies()) {
+            userToUpdate.setDiaryAllergies(user.isDiaryAllergies());
+        }
+        if(user.isEggAllergies() != userToUpdate.isEggAllergies()) {
+            userToUpdate.setEggAllergies(user.isEggAllergies());
         }
         return this.userRepository.save(userToUpdate);
     }

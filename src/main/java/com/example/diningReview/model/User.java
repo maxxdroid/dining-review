@@ -28,14 +28,4 @@ public class User {
     private boolean isEggAllergies;
 
     private boolean isDiaryAllergies;
-
-    public boolean tryGetPeanutAllergy() {
-        return isPeanutAllergies;
-    }
-    public boolean tryGetEgAllergy() {
-        return isEggAllergies;
-    }
-    public boolean tryGetDiaryAllergy() {
-        return isDiaryAllergies;
-    }
 }
