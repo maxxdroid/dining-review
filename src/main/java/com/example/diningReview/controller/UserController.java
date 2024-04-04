@@ -3,7 +3,9 @@ package com.example.diningReview.controller;
 
 import com.example.diningReview.model.User;
 import com.example.diningReview.repository.UserRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
@@ -34,7 +36,7 @@ public class UserController {
     public User createNewUser(@RequestBody User user) {
         Optional<User> checkUser = this.userRepository.findByName(user.getName());
         if(checkUser.isPresent()) {
-            return null;
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "User already Exists!");
         }
         return this.userRepository.save(user);
     }
@@ -43,7 +45,7 @@ public class UserController {
     public  User updateUser(@RequestBody User user) {
         Optional<User> checkUser = this.userRepository.findByName(user.getName());
         if(checkUser.isEmpty()) {
-            return null;
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not Found");
         }
         User userToUpdate = checkUser.get();
         if (checkChange(userToUpdate.getCity(), user.getCity()) && userToUpdate.getCity()!=null) {
@@ -58,14 +60,31 @@ public class UserController {
         if(user.isPeanutAllergies() != userToUpdate.isPeanutAllergies()) {
             userToUpdate.setPeanutAllergies(user.isPeanutAllergies());
         }
-        if(user.isDiaryAllergies() != userToUpdate.isDiaryAllergies()) {
-            userToUpdate.setDiaryAllergies(user.isDiaryAllergies());
-        }
-        if(user.isEggAllergies() != userToUpdate.isEggAllergies()) {
-            userToUpdate.setEggAllergies(user.isEggAllergies());
-        }
+
+        userToUpdate.setPeanutAllergies(user.isPeanutAllergies());
+
+        userToUpdate.setDiaryAllergies(user.isDiaryAllergies());
+
+        userToUpdate.setEggAllergies(user.isEggAllergies());
+
         return this.userRepository.save(userToUpdate);
     }
+
+    @DeleteMapping("/delete")
+    public User deleteUser(@RequestParam(value = "name", required = false) String name) {
+        Optional<User> user = this.userRepository.findByName(name);
+        if (user.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not Found");
+        }
+        User userToDelete = user.get();
+        this.userRepository.delete(userToDelete);
+        return userToDelete;
+    }
+
+//    @DeleteMapping("/delete/{name}")
+//    public User deleteUser(@PathVariable("name") String name) {
+//
+//    }
 
     public boolean checkChange(String string1, String string2) {
         return !string1.equals(string2);

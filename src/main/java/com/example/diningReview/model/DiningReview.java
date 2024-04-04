@@ -19,11 +19,11 @@ public class DiningReview {
 
     private ReviewStatus status;
 
-//    private Optional<Float> peanutScale;
-//
-//    private Optional<Float> eggScore;
-//
-//    private  Optional<Float> diaryScore;
-//
-//    private Optional<String> commentary;
+    private String peanutScale;
+
+    private String eggScore;
+
+    private  String diaryScore;
+
+    private String commentary;
 }
