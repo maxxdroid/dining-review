@@ -19,7 +19,7 @@ public class DiningReview {
 
     private ReviewStatus status;
 
-    private String peanutScale;
+    private String peanutScore;
 
     private String eggScore;
 

@@ -81,11 +81,6 @@ public class UserController {
         return userToDelete;
     }
 
-//    @DeleteMapping("/delete/{name}")
-//    public User deleteUser(@PathVariable("name") String name) {
-//
-//    }
-
     public boolean checkChange(String string1, String string2) {
         return !string1.equals(string2);
     }
