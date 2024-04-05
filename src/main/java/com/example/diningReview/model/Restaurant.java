@@ -18,11 +18,11 @@ public class Restaurant {
 
     private String state;
 
-    private String overallScore;
+    private Float overallScore;
 
-    private String peanutScore;
+    private Float peanutScore;
 
-    private String diaryScore;
+    private Float diaryScore;
 
-    private String eggScore;
+    private Float eggScore;
 }
